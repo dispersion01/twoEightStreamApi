@@ -2,56 +2,63 @@ package com.any.twoEightStreamApi;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.OptionalDouble;
-import java.util.stream.IntStream;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    private List<Employee> employeesList;
 
-    public EmployeeServiceImpl() {
-        this.employeesList = new ArrayList<>();
-        employeesList.add(new Employee(0, "Nikolaeva", 33, 300_000));
-        employeesList.add(new Employee(1, "Ivanov", 30, 360_000));
-        employeesList.add(new Employee(2, "Petrov", 03, 200_000));
-        employeesList.add(new Employee(3, "Pavlova", 33, 260_000));
 
+//    Map<Integer, List<Employee>> employeesMap = new HashMap<>();
+    List<Employee> employeesList = new ArrayList<>();
+
+
+    public EmployeeServiceImpl(List<Employee> employeesList) {
+        this.employeesList = employeesList;
     }
 
-    public void maxSalary(Employee employee) {
-        employeesList.stream()
-                .max(Comparator.comparingDouble(employeeMax -> employee.getSalary()));// из курсовой метод maxSalary
+
+    public Employee maxSalary(int departmentId) { //максимальная зарплата
+        return employeesList.stream()
+                .filter(employee -> employee.getDepartment() == departmentId))
+        .max(Comparator.comparingInt(Employee::getSalary))
+                .orElseThrow();
     }
 
-    public void minSalary(Employee employee) {
-        employeesList.stream()
-                .min(Comparator.comparingDouble(employeeMin -> employee.getSalary()));// из курсовой метод minSalary
+    public Employee minSalary(int departmentId) { //минимальная зарплата
+        return employeesList.stream()
+                .filter(employee -> employee.getDepartment() == departmentId))
+        .min(Comparator.comparingInt(Employee::getSalary))
+                .orElseThrow();
     }
 
-    public void allEmployee(Employee employee) {
-        employeesList.stream()
+    public Employee allEmployee(int departmentId) {
+      return   employeesList.stream()
+                .filter(employee -> employee.getDepartment() == departmentId))
                 .forEach(employeeAll -> System.out.println(employee)); // из курсовой метод allEmployee
-
     }
 
-    public void allEmployeeNames(Employee employee) {
-        employeesList.stream()
-                .forEach(employeeNames -> System.out.println(employee.getFamilyName())); // из курсовой метод onlyNamesEmployee
+    public Map<Integer, List<Employee>> allEmployeeNames(Employee employee) {
+        return  employeesList.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment))
+                .orElseThrow();
     }
 
-    public  void averageSalary(Employee employee) {
-       int employeesList = employee.employeesList.stream()   // из курсовой метод midSalary
-                .map( employeeAverage -> employeeAverage.chars()
-                        .average();
+    public Employee averageSalary(int departmentId) { //средняя зарплата
+        return employeesList..stream()
+                .filter(employee -> employee.getDepartment() == departmentId))
+        .average(Comparator.comparingInt(Employee::getSalary))
+                .orElseThrow();
+
+                ;
     }
-    public void sumSalary(Employee employee) {
-        int employeesList = employee.employeesList.stream()   // из курсовой метод midSalary
-                .map( employeeAverage -> employeeAverage.chars()
-                        .sum();
+
+    public Employee sumSalary(Employee departmentId) { //сумма зарплат
+        return .stream()
+                .filter(employee -> employee.getDepartment() == departmentId))
+        .sum(Comparator.comparingInt(Employee::getSalary))
+                .orElseThrow();;
     }
 
 }

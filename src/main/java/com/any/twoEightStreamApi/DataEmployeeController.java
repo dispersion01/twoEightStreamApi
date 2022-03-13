@@ -16,22 +16,22 @@ public class DataEmployeeController {
 
     @GetMapping(path = "/max-salary")
 public int maxSalary (@RequestParam int departmentId) {
-        return maxSalary();
+        return maxSalary(departmentId);
     }
 
     @GetMapping(path = "/min-salary")
     public int minSalary (@RequestParam int departmentId) {
-        return minSalary();
+        return minSalary(departmentId);
     }
 
     @GetMapping(path = "/average-salary")
     public int averageSalarySalary (@RequestParam int departmentId) {
-        return averageSalarySalary();
+        return averageSalarySalary(departmentId);
     }
 
     @GetMapping(path = "/sum-salary")
     public int sumSalary (@RequestParam int departmentId) {
-        return sumSalary();
+        return sumSalary(departmentId);
     }
 
     @GetMapping(path = "/all")
@@ -40,7 +40,7 @@ public int maxSalary (@RequestParam int departmentId) {
     }
     @GetMapping(path = "/all")
     public int allEmployee (@RequestParam int departmentId) {
-        return allEmployee();
+        return allEmployee(departmentId);
     }
 
 }
