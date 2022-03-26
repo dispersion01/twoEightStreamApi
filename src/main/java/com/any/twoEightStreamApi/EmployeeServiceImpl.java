@@ -3,62 +3,101 @@ package com.any.twoEightStreamApi;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
+    //  решение через list
+    private final List<Employee> employeesList;
 
-//    Map<Integer, List<Employee>> employeesMap = new HashMap<>();
-    List<Employee> employeesList = new ArrayList<>();
+    public EmployeeServiceImpl() {
+        employeesList = new ArrayList<>();
+    }
 
+    @Override
+    public Collection<Employee> getAll() {
+        return List.copyOf(employeesList);
+    }
 
-    public EmployeeServiceImpl(List<Employee> employeesList) {
-        this.employeesList = employeesList;
+    @Override
+    public Employee add(String familyName, int department, int salary) {
+        Employee newElement = new Employee(familyName, department, salary);
+        if (newElement.equals(employeesList.contains(familyName))) {
+            throw new RuntimeException("Сотрудник уже существует");
+        }
+        employeesList.add(newElement);
+        return newElement;
     }
 
 
-    public Employee maxSalary(int departmentId) { //максимальная зарплата
-        return employeesList.stream()
-                .filter(employee -> employee.getDepartment() == departmentId))
-        .max(Comparator.comparingInt(Employee::getSalary))
-                .orElseThrow();
+    public Employee remove(String familyName, int department, int salary) {
+        Employee removeElement = new Employee(familyName, department, salary);
+        if (employeesList.contains(removeElement)) {
+            employeesList.remove(removeElement);
+        }
+        throw new RuntimeException();
+
     }
 
-    public Employee minSalary(int departmentId) { //минимальная зарплата
-        return employeesList.stream()
-                .filter(employee -> employee.getDepartment() == departmentId))
-        .min(Comparator.comparingInt(Employee::getSalary))
-                .orElseThrow();
+    public Employee find(String familyName, int department, int salary) {
+        Employee findElement = new Employee(familyName, department, salary);
+        if (employeesList.contains(findElement)) {
+            return findElement;
+        }
+        return findElement;
     }
 
-    public Employee allEmployee(int departmentId) {
-      return   employeesList.stream()
-                .filter(employee -> employee.getDepartment() == departmentId))
-                .forEach(employeeAll -> System.out.println(employee)); // из курсовой метод allEmployee
+/*
+
+    //    решение через Map
+    private final Map<String, Employee> employeeMap;
+
+    public EmployeeServiceImpl() {
+        employeeMap = new HashMap<>();
     }
 
-    public Map<Integer, List<Employee>> allEmployeeNames(Employee employee) {
-        return  employeesList.stream()
-                .collect(Collectors.groupingBy(Employee::getDepartment))
-                .orElseThrow();
+
+    private String getKey(String familyName) {
+        return familyName;
+    }
+    @Override
+    public Collection<Employee> getAll() {
+        return Collections.unmodifiableCollection(employeeMap.values());
+
+    }
+    @Override
+    public Employee add(String familyName, int department, int salary) {
+        String key = getKey(familyName);
+        if (employeeMap.containsKey(key)) {
+            throw new RuntimeException();
+        }
+        Employee newElement = new Employee(familyName, department, salary);
+        employeeMap.put(key, newElement);
+        return newElement;
     }
 
-    public Employee averageSalary(int departmentId) { //средняя зарплата
-        return employeesList..stream()
-                .filter(employee -> employee.getDepartment() == departmentId))
-        .average(Comparator.comparingInt(Employee::getSalary))
-                .orElseThrow();
+@Override
+    public Employee remove(String familyName, int department, int salary) {
+        String key = getKey(familyName);
+        if (employeeMap.remove(key) == null) {
+            throw new RuntimeException();
+        }
+        Employee removeElement = new Employee(familyName, department, salary);
+        return removeElement;
 
-                ;
     }
+@Override
+    public Employee find(String familyName, int department, int salary) {
+        String key = getKey(familyName);
+        Employee findElement = employeeMap.get(familyName);
+        if (findElement == null) {
+            throw new RuntimeException();
+        }
+        return findElement;
+    }
+*/
 
-    public Employee sumSalary(Employee departmentId) { //сумма зарплат
-        return .stream()
-                .filter(employee -> employee.getDepartment() == departmentId))
-        .sum(Comparator.comparingInt(Employee::getSalary))
-                .orElseThrow();;
-    }
+
 
 }

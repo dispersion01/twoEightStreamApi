@@ -6,41 +6,41 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/departments")
+@RequestMapping("/employee")
 public class DataEmployeeController {
-    private final EmployeeServiceImpl departmentId;
+    private EmployeeService employeeService;
 
-    public DataEmployeeController(EmployeeServiceImpl departmentId) {
-        this.departmentId = departmentId;
+    public DataEmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
-    @GetMapping(path = "/max-salary")
-public int maxSalary (@RequestParam int departmentId) {
-        return maxSalary(departmentId);
+    @GetMapping
+    public String helloEmployee() {
+        return "Hello!";
     }
 
-    @GetMapping(path = "/min-salary")
-    public int minSalary (@RequestParam int departmentId) {
-        return minSalary(departmentId);
+    @GetMapping("/add")
+    public Employee addEmployeer(@RequestParam String familyName,
+                                 @RequestParam int department,
+                                 @RequestParam int salary) {
+        return employeeService.add(familyName, department, salary);
+
     }
 
-    @GetMapping(path = "/average-salary")
-    public int averageSalarySalary (@RequestParam int departmentId) {
-        return averageSalarySalary(departmentId);
+    @GetMapping("/remove")
+    public Employee removeEmployeer(@RequestParam String familyName,
+                                    @RequestParam int department,
+                                    @RequestParam int salary) {
+        return employeeService.remove(familyName, department, salary);
+
     }
 
-    @GetMapping(path = "/sum-salary")
-    public int sumSalary (@RequestParam int departmentId) {
-        return sumSalary(departmentId);
-    }
+    @GetMapping("/find")
+    public Employee findEmployeer(@RequestParam String familyName,
+                                  @RequestParam int department,
+                                  @RequestParam int salary) {
 
-    @GetMapping(path = "/all")
-    public int allEmployeeNames () {
-        return allEmployeeNames();
-    }
-    @GetMapping(path = "/all")
-    public int allEmployee (@RequestParam int departmentId) {
-        return allEmployee(departmentId);
+        return employeeService.find(familyName, department, salary);
     }
 
 }
