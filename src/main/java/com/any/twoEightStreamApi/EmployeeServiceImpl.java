@@ -5,6 +5,10 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 
+import static org.apache.commons.lang3.StringUtils.isAlpha;
+import static org.springframework.util.StringUtils.capitalize;
+
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -22,7 +26,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee add(String familyName, int department, int salary) {
-        Employee newElement = new Employee(familyName, department, salary);
+        validateNames(familyName);
+        Employee newElement = new Employee(capitalize(familyName), department, salary);
         if (newElement.equals(employeesList.contains(familyName))) {
             throw new RuntimeException("Сотрудник уже существует");
         }
@@ -46,6 +51,14 @@ public class EmployeeServiceImpl implements EmployeeService {
             return findElement;
         }
         return findElement;
+    }
+
+    public void validateNames(String... name) {
+        for (String names : name) {
+            if (!isAlpha(names)) {
+                throw new RuntimeException();
+            }
+        }
     }
 
 /*
